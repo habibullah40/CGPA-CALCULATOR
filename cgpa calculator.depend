@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1737570324 source:c:\users\hp\documents\cgpa calculator\cgpa calculator\main.cpp
+	<iostream>
+	<string>
+	<iomanip>
+
