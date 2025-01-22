@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPA Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>GPA Calculator</h1>
+    <p>Author: [pakcu carlos]</p>
+
+    <div id="form-container">
+        <form id="gpa-form">
+            <div id="subject-fields">
+                <!-- Subject fields will be appended here -->
+            </div>
+            <button type="button" onclick="addSubjectField()">Add Subject</button>
+            <br><br>
+            <button type="submit">Calculate GPA</button>
+        </form>
+    </div>
+
+    <div id="result-container">
+        <!-- Result will be displayed here -->
+    </div>
+
+    <script>
+        const SIZE = 5;
+        let subjectCount = 0;
+
+        function addSubjectField() {
+            if (subjectCount >= SIZE) {
+                alert("You can only add up to " + SIZE + " subjects.");
+                return;
+            }
+
+            subjectCount++;
+            const subjectFields = document.getElementById('subject-fields');
+            const subjectHTML = `
+                <div>
+                    <h3>Subject ${subjectCount}</h3>
+                    <label for="subject-${subjectCount}">Name of Subject:</label>
+                    <input type="text" id="subject-${subjectCount}" required><br>
+                    <label for="credits-${subjectCount}">Credit Hours (1-4):</label>
+                    <input type="number" id="credits-${subjectCount}" min="1" max="4" required><br>
+                    <label for="score-${subjectCount}">Total Score (0-100):</label>
+                    <input type="number" id="score-${subjectCount}" min="0" max="100" required><br><br>
+                </div>
+            `;
+            subjectFields.insertAdjacentHTML('beforeend', subjectHTML);
+        }
+
+        document.getElementById('gpa-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const subjects = [];
+            const credits = [];
+            const scores = [];
+            const grades = [];
+            const points = [];
+
+            for (let i = 1; i <= subjectCount; i++) {
+                subjects.push(document.getElementById(subject-${i}).value);
+                credits.push(parseInt(document.getElementById(credits-${i}).value));
+                scores.push(parseFloat(document.getElementById(score-${i}).value));
+            }
+
+            for (let i = 0; i < subjectCount; i++) {
+                if (scores[i] >= 80) {
+                    grades.push("A"); points.push(4.0);
+                } else if (scores[i] >= 75) {
+                    grades.push("A-"); points.push(3.7);
+                } else if (scores[i] >= 70) {
+                    grades.push("B+"); points.push(3.3);
+                } else if (scores[i] >= 65) {
+                    grades.push("B"); points.push(3.0);
+                } else if (scores[i] >= 60) {
+                    grades.push("B-"); points.push(2.7);
+                } else if (scores[i] >= 55) {
+                    grades.push("C+"); points.push(2.3);
+                } else if (scores[i] >= 50) {
+                    grades.push("C"); points.push(2.0);
+                } else if (scores[i] >= 45) {
+                    grades.push("C-"); points.push(1.7);
+                } else if (scores[i] >= 40) {
+                    grades.push("D"); points.push(1.0);
+                } else {
+                    grades.push("F"); points.push(0.0);
+                }
+            }
+
+            let totalQualityPoints = 0;
+            let totalCredits = 0;
+
+            for (let i = 0; i < subjectCount; i++) {
+                let qualityPoints = points[i] * credits[i];
+                totalQualityPoints += qualityPoints;
+                totalCredits += credits[i];
+            }
+
+            let gpa = totalQualityPoints / totalCredits;
+
+            let resultHTML = `
+                <h2>GPA Calculation Result</h2>
+                <p>Total Quality Points: ${totalQualityPoints.toFixed(2)}</p>
+                <p>Total Credits: ${totalCredits}</p>
+                <p>GPA: ${gpa.toFixed(2)}</p>
+                <h3>Details</h3>
+                <table>
+                    <tr>
+                        <th>Index</th>
+                        <th>Subject</th>
+                        <th>Credit</th>
+                        <th>Score</th>
+                        <th>Grade</th>
+                        <th>Point</th>
+                    </tr>
+            `;
+
+            for (let i = 0; i < subjectCount; i++) {
+                resultHTML += `
+                    <tr>
+                        <td>${i + 1}</td>
+                        <td>${subjects[i]}</td>
+                        <td>${credits[i]}</td>
+                        <td>${scores[i]}</td>
+                        <td>${grades[i]}</td>
+                        <td>${points[i].toFixed(2)}</td>
+                    </tr>
+                `;
+            }
+
+            resultHTML += </table>;
+            document.getElementById('result-container').innerHTML = resultHTML;
+        });
+    </script>
+</body>
+</html>
