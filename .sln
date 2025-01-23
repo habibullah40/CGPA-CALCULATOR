@@ -1,0 +1,2 @@
+- name: Restore dependencies
+  run: dotnet restore ./path/to/project.csproj
